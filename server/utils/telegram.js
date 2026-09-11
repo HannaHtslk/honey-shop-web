@@ -39,4 +39,39 @@ async function sendLeadNotification(lead, priorCount = 0) {
     }
 }
 
-module.exports = { sendLeadNotification };
+async function sendOrderNotification(order) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    console.warn('Telegram not configured — skipping notification');
+    return;
+  }
+
+  const itemLines = order.items
+  .map((item) => `  • ${item.name} (${item.unit}) x${item.quantity} — ${item.price * item.quantity} грн`)
+  .join('\n');
+
+  const text =
+    `🛒 Нове замовлення!\n\n` +
+    `Ім'я: ${order.name}\n` +
+    `Телефон: ${order.phone}\n\n` +
+    `Товари:\n${itemLines}\n\n` +
+    `Разом: ${order.totalPrice} грн`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, text }),
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Telegram order notification failed:', err);
+    }
+  } catch (err) {
+    console.error('Telegram order notification error:', err);
+  }
+}
+
+module.exports = { sendLeadNotification, sendOrderNotification };

@@ -13,13 +13,16 @@ router.get("/",  async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    try{
+    try {
+        if (!Array.isArray(req.body.variants) || req.body.variants.length === 0) {
+            return res.status(400).json({ message: 'Товар повинен мати хоча б один варіант об\'єму/ціни' });
+        }
         const product = await Product.create(req.body);
         res.status(201).json(product);
-    } catch(error){
+    } catch (error) {
+        console.error(error);
         res.status(400).json({ message: error.message });
     }
-
-})
+});
 
 module.exports = router;

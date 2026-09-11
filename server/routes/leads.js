@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
     try {
         const priorCount = await Lead.countDocuments({ phone: normalizePhone(req.body.phone) });
         const lead = await Lead.create(req.body);
-        sendLeadNotification(lead, priorCount);
+        sendLeadNotification(lead, priorCount).catch((err) => console.error('Notification failed:', err));
         res.status(201).json(lead);
     } catch (error) {
         console.error(error);

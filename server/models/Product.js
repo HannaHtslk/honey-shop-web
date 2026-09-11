@@ -1,12 +1,23 @@
 const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    description: {type: String, required: true},
-    category: {type: String, required: true},
-    imageUrl: {type: String},
-    price: {type: String},
+const variantSchema = new mongoose.Schema({
+    unit: { type: String, required: true },   
+    price: { type: Number, required: true, min: 0 },
+}, { _id: false });
 
-}, {timestamps: true});
+const productSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    category: { type: String, required: true },
+    imageUrl: { type: String },
+    variants: {
+        type: [variantSchema],
+        required: true,
+        validate: {
+            validator: (arr) => arr.length > 0,
+            message: 'Товар повинен мати хоча б один варіант об\'єму/ціни',
+        },
+    },
+}, { timestamps: true });
 
 module.exports = mongoose.model("Product", productSchema)
