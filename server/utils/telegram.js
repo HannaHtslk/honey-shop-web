@@ -1,4 +1,4 @@
-async function sendLeadNotification(lead) {
+async function sendLeadNotification(lead, priorCount = 0) {
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -7,8 +7,14 @@ async function sendLeadNotification(lead) {
         return;
     }
 
+     const repeatWarning =
+     priorCount > 0
+      ? `⚠️ Повторне звернення (${priorCount + 1}-й раз)\n\n`
+      : '';
+
     const text =
     `🐝 Новий лід!\n\n` +
+    repeatWarning +
     `Ім'я: ${lead.name}\n` +
     `Телефон: ${lead.phone}\n` +
     `Товар: ${lead.productInterest || '—'}\n` +
