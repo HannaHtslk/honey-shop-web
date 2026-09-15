@@ -74,4 +74,4 @@ async function sendOrderNotification(order) {
   }
 }
 
-module.exports = { sendLeadNotification, sendOrderNotification };
+export { sendLeadNotification, sendOrderNotification };

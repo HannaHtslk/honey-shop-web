@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import Lead from '../models/Lead.js';
+import { sendLeadNotification } from '../utils/telegram.js';
+import { normalizePhone } from '../utils/phone.js';
+
 const router = express.Router();
-const Lead = require('../models/Lead');
-const { sendLeadNotification } = require('../utils/telegram');
-const { normalizePhone } = require('../utils/phone');
 
 router.post('/', async (req, res) => {
     try {
@@ -16,4 +17,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

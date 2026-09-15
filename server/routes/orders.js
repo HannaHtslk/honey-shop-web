@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import Order from '../models/Order.js';
+import { sendOrderNotification } from '../utils/telegram.js';
+
 const router = express.Router();
-const Order = require('../models/Order');
-const { sendOrderNotification } = require('../utils/telegram');
 
 router.post('/', async (req, res) => {
     try {
@@ -27,4 +28,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

@@ -9,4 +9,4 @@ function normalizePhone(raw) {
   return p;
 }
 
-module.exports = { normalizePhone };
+export { normalizePhone };

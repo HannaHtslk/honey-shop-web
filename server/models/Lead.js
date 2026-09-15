@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { normalizePhone } = require("../utils/phone");
+import mongoose from "mongoose";
+import { normalizePhone } from "../utils/phone.js";
 
 const leadSchema = mongoose.Schema({
    name: {
@@ -40,4 +40,4 @@ leadSchema.pre('validate', function () {
   }
 });
 
-module.exports = mongoose.model("Lead", leadSchema);
+export default mongoose.model("Lead", leadSchema);

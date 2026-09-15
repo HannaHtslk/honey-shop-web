@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { normalizePhone } = require('../utils/phone');
+import mongoose from 'mongoose';
+import { normalizePhone } from '../utils/phone.js';
 
 const orderItemSchema = new mongoose.Schema({
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
@@ -52,4 +52,4 @@ orderSchema.pre('validate', function () {
     }
 });
 
-module.exports = mongoose.model("Order", orderSchema);
+export default mongoose.model("Order", orderSchema);
